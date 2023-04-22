@@ -49,6 +49,7 @@ class _MyAppState extends State<MyApp> {
                   var externalStorage =
                       await FlutterZipperBasic.getExternalDirectory(
                           directoryType: DirectoryType.documents);
+
                   FlutterZipperBasic.createSplitZip(
                       files: fileList,
                       password: "password",
