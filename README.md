@@ -89,7 +89,16 @@ FlutterZipperBasic.createSplitZip(
 );
 ```
 
+### 3. Extract zip file content
 
+```Dart
+FlutterZipperBasic.extractAll(
+    destination: "Zip file directory", 
+    zipPath: "zip file directory", 
+    getPercentage: (values){
+        //handle percent value
+    });
+```
 ## ToDo: 
 
 1. Create a better example
