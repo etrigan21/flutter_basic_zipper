@@ -59,9 +59,9 @@ class FlutterZipperBasic {
     });
   }
 
-  static Future<void> test() async {
+  static Future<String> getPlatformVersion() async {
     var res = await _zipper.invokeMethod("getPlatformVersion");
-    print(res);
+    return res;
   }
 
   static Future<String> getExternalDirectory(
@@ -71,5 +71,30 @@ class FlutterZipperBasic {
     return res;
   }
 
-  getPlatformVersion() {}
+  static Future<List<String>> getFilesInZip({required String zipPath})async{
+    List<String> items = await _zipper.invokeMethod("getFileListInZip");
+    return items;
+  }
+
+  static Future<bool> isPasswordProtected({required String zipPath})async{
+    bool isPasswordProtected = await _zipper.invokeMethod("checkIfZipIsPasswordProtected");
+    return isPasswordProtected;
+  }
+
+    static Future<bool> isZipValid({required String zipPath})async{
+    bool isValid = await _zipper.invokeMethod("checkValidity");
+    return isValid;
+  }
+
+    static Future<bool> isSplitZip({required String zipPath})async{
+    bool isSplitZip = await _zipper.invokeMethod("isSplitZip");
+    return isSplitZip;
+  }
+    static Future<void> mergeSplit({required String zipPath, required String mergedZipPath})async{
+        await _zipper.invokeMethod("mergeSplit", {
+          "zipPath": zipPath,
+          "newZipPath": mergedZipPath
+        });
+  }
+  
 }

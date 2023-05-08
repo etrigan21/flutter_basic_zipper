@@ -4,8 +4,11 @@ import android.app.Activity;
 
 import androidx.annotation.NonNull;
 
+import net.lingala.zip4j.exception.ZipException;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import fun.etrigan.flutter_zipper_basic.utils.CustomException;
 import fun.etrigan.flutter_zipper_basic.utils.Unzip;
@@ -84,6 +87,58 @@ public class FlutterZipperBasicPlugin implements FlutterPlugin, MethodCallHandle
         _unzip.extractAllFilesFromZip(zipPath, destination,_activity ,password);
       }
       break;
+      case "createSplitZipFromDirectory": {
+        String zipPath = call.argument("zipPath");
+        String directoryPath = call.argument("directory");
+        int splitSize = call.argument("splitSize");
+        _zipFileList.createSplitZipFromDirectory(zipPath, directoryPath, splitSize, _activity);
+      }
+      break;
+      case "getFileListInZip": {
+        String zipPath = call.argument("zipPath");
+        try {
+          List<String> files = _zipFileList.getFileListInZip(zipPath);
+          result.success(files);
+        } catch (ZipException e) {
+          throw new RuntimeException(e);
+        }
+      } break;
+      case "checkIfZipIsPasswordProtected": {
+        String zipPath = call.argument("zipPath");
+        try {
+          Boolean isProtected = _zipFileList.checkIfZipIsPasswordProtected(zipPath);
+          result.success(isProtected);
+        } catch (ZipException e) {
+          throw new RuntimeException(e);
+        }
+      } break;
+      case "checkValidity": {
+        String zipPath = call.argument("zipPath");
+        try {
+          Boolean isValid = _zipFileList.checkIfZipIsValid(zipPath);
+          result.success(isValid);
+        } catch (ZipException e) {
+          throw new RuntimeException(e);
+        }
+      } break;
+      case "isSplitZip": {
+        String zipPath = call.argument("zipPath");
+        try {
+          Boolean isSplit = _zipFileList.checkIfSplitZip(zipPath);
+          result.success(isSplit);
+        } catch (ZipException e) {
+          throw new RuntimeException(e);
+        }
+      } break;
+      case "mergeSplit": {
+        String zipPath = call.argument("zipPath");
+        String newZip = call.argument("newZipPath");
+        try {
+          _zipFileList.mergeSplitZip(zipPath, newZip, _activity);
+        } catch (ZipException e) {
+          throw new RuntimeException(e);
+        }
+      } break;
       default: {
         result.notImplemented();
       }
